@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug GDBServer",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/Debug/Exe/Power_Monitor.out",
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2020-q4-major/bin/arm-none-eabi-gdb.exe",
+            // "debugServerPath": "C:/openocd/bin/openocd.exe",
+            // "debugServerArgs": "-f board/ti_ek-tm4c123gxl.cfg",
+            "serverStarted": "Connected\\ to\\ target",
+            "serverLaunchTimeout": 5000,
+            "filterStderr": false,
+            "filterStdout": true,
+            "setupCommands": [
+                {
+                    "text": "target remote localhost:3333"
+                },
+                {
+                    "text": "monitor flash breakpoints = 1"
+                },
+                // {
+                //     "text": "monitor flash download = 1"
+                // },
+                {
+                    "text": "monitor reset" // halt"
+                },
+                {
+                    "text": "symbol-file D:/Users/Andrew/Documents/Proj/ARM/LCD/Power_Monitor/Debug/Exe/Power_Monitor.out"
+                },
+                {
+                    "text": "load D:/Users/Andrew/Documents/Proj/ARM/LCD/Power_Monitor/Debug/Exe/Power_Monitor.out"
+                },
+                {
+                    "text": "monitor reset" // halt"
+                }
+            ]
+        }
+    ]
+}

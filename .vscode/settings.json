@@ -1,0 +1,10 @@
+{
+    "iarproject.projectFile": "d:\\Users\\Andrew\\Documents\\Proj\\ARM\\LCD\\MyWidget_spi\\MyWidget_spi.ewp",
+    "files.associations": {
+        "grlib.h": "c",
+        "string.h": "c",
+        "ustdlib.h": "c",
+        "sstream": "c",
+        "kentec320x240x16_ssd2119_spi.h": "c"
+    }
+}

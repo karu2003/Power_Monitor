@@ -1,0 +1,6 @@
+https://distortos.org/documentation/arm-toolchain-windows/
+
+https://www.justinmklam.com/posts/2017/10/vscode-debugger-setup/
+
+# Starting a Debug Session in net Terminal
+openocd -f board\ti_ek-tm4c123gxl.cfg
