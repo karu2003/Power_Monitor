@@ -25,20 +25,22 @@
 #include "drivers/touch.h"
 //#include "utils/ustdlib.h"
 
-#include <math.h>
+// #include <math.h>
 #include "Average.h"
 
 #define ADC_SAMPLE_BUF_SIZE 64
-#define SampleFreq 5000 // 5kHz
-#define LCD_hold 1      // 1Hz
+// #define SampleFreq 5000 // 5kHz
+#define LCD_hold 1 // 1Hz
 #define LCD_fps 5
 #define Vref 3.3
 #define PI 3.1415928353
 int mVperAmp = 55; // ACS711KLCTR-25AB-T
 int ACSoffset = 1650;
-#define R1 560.0  //K ohm
-#define R2 33.0 //k ohm
+#define R1 560.0 //K ohm
+#define R2 33.0  //k ohm
 #define denominator (R2 / (R1 + R2))
+#define Winwows 0.025 //25ms
+#define SampleFreq (ADC_SAMPLE_BUF_SIZE / Winwows)
 
 #define TX_ON GPIO_PIN_3
 
@@ -60,6 +62,7 @@ volatile uint32_t CountT5 = 0;
 char Str1[10];
 char Str2[10];
 char Str3[10];
+char *Test = "Test ----";
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
 Average<float> ave_ADC(ADC_SAMPLE_BUF_SIZE);
@@ -178,9 +181,9 @@ void Timer0IntHandler(void)
        //Radian
        // Angle = atan2(CosVoltage,SinVoltage)*(180/PI) + 180;
        //Degree
-       Angle = atan2(CosVoltage, SinVoltage) + PI;
-       snprintf(Str1, sizeof(Str1), "%.2f °", Angle);
-       CanvasTextSet(&g_sResult_Slow, Str1);
+       // Angle = atan2(CosVoltage, SinVoltage) + PI;
+       // snprintf(Str1, sizeof(Str1), "%.2f °", Angle);
+       CanvasTextSet(&g_sResult_Slow, Test);
        WidgetPaint((tWidget *)&g_sResult_Slow);
 }
 
@@ -207,41 +210,59 @@ void ADCInit(void)
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
        GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3 | GPIO_PIN_2);
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-       GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_3 | GPIO_PIN_2);
+       GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_3);
        // ADCHardwareOversampleConfigure(ADC0_BASE, 64);
        ADCSequenceConfigure(ADC0_BASE, 1, ADC_TRIGGER_TIMER, 0);
+       // ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH0 | ADC_CTL_D);
+       // ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH2 | ADC_CTL_D); //ADC_CTL_CMP0
        ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH0 | ADC_CTL_D);
-       ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH2 | ADC_CTL_D);
-       ADCSequenceStepConfigure(ADC0_BASE, 1, 2, ADC_CTL_CH0 | ADC_CTL_D);
-       ADCSequenceStepConfigure(ADC0_BASE, 1, 3, ADC_CTL_CH2 | ADC_CTL_D | ADC_CTL_IE | ADC_CTL_END);
+       ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH2 | ADC_CTL_IE | ADC_CTL_END); //| ADC_CTL_CMP0
        IntEnable(INT_ADC0SS1);
        ADCSequenceEnable(ADC0_BASE, 1);
        ADCIntClear(ADC0_BASE, 1);
+
+       ADCComparatorConfigure(ADC0_BASE, 0, ADC_COMP_TRIG_NONE | ADC_COMP_INT_HIGH_HONCE);
+       ADCComparatorRegionSet(ADC0_BASE, 0, 1000, 2000);
+       ADCComparatorReset(ADC0_BASE, 0, true, true);
+       ADCComparatorIntEnable(ADC0_BASE, 1);
 }
 
 void ADC0SS1IntHandler(void)
 {
        // TimerDisable(TIMER5_BASE, TIMER_A);
+       uint32_t s = ADCComparatorIntStatus(ADC0_BASE);
+       if (s)
+       {
+              ADCComparatorIntClear(ADC0_BASE, 0xffff);
+              Test = "Test CCOPM0";
+       }
        ADCIntClear(ADC0_BASE, 1);
        uiCount++;
        ADCSequenceDataGet(ADC0_BASE, 1, pui32ADC0Value);
        CosVoltage = (pui32ADC0Value[0] * (2 * Vref / 4096)) - Vref;
-       SinVoltage = (pui32ADC0Value[1] * (2 * Vref / 4096)) - Vref;
+       SinVoltage = (pui32ADC0Value[1] * Vref / 4096);
        // Voltage = (*pui32ADC0Value * (2 * Vref / 4096)) - Vref;
        // Voltage = Voltage / denominator;
        // Amps = ((Voltage - ACSoffset) / mVperAmp);
        // TimerEnable(TIMER5_BASE, TIMER_A);
 }
+
+void CMP0IntHandler(void)
+{
+       ADCComparatorIntClear(ADC0_BASE, 0xffff);
+       Test = "Test CCOPM0";
+}
+
 void GPIOinit(void)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON); // Output - TX_ON
-       GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_0);  // Input - VDRV
+       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);     // Output - TX_ON
+       GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_0); // Input - VDRV
        GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_0);  //Input PwrAmp
+       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_0); //Input PwrAmp
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_2);  //Input nFAULT
+       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_2); //Input nFAULT
 }
 
 int main(void)

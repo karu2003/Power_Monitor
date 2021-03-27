@@ -5,6 +5,8 @@
         "string.h": "c",
         "ustdlib.h": "c",
         "sstream": "c",
-        "kentec320x240x16_ssd2119_spi.h": "c"
+        "kentec320x240x16_ssd2119_spi.h": "c",
+        "xstring": "c",
+        "math.h": "c"
     }
 }

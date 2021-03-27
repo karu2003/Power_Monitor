@@ -55,6 +55,7 @@ extern void Timer0IntHandler(void);
 extern void Timer1IntHandler(void);
 extern void Timer5IntHandler(void);
 extern void ADC0SS1IntHandler(void);
+// extern void CMP0IntHandler(void);
 
 //*****************************************************************************
 //
@@ -202,7 +203,7 @@ __root const uVectorEntry __vector_table[] @ ".intvec" =
     0,                                      // Reserved
     0,                                      // Reserved
     0,                                      // Reserved
-    Timer5IntHandler,                      // Timer 5 subtimer A
+    Timer5IntHandler,                       // Timer 5 subtimer A
     IntDefaultHandler,                      // Timer 5 subtimer B
     IntDefaultHandler,                      // Wide Timer 0 subtimer A
     IntDefaultHandler,                      // Wide Timer 0 subtimer B
