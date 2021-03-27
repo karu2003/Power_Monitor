@@ -4,3 +4,4 @@ Board TM4C123GXL.
 Display BOOSTTXL-K350QVG-S1. 
 
 # References:
+https://github.com/MajenkoLibraries/Average

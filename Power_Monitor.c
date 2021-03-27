@@ -12,7 +12,7 @@
 #include "driverlib/rom_map.h"
 #include "driverlib/adc.h"
 #include "inc/hw_adc.h"
-#include "inc/hw_ints.h" 
+#include "inc/hw_ints.h"
 #include "grlib/grlib.h"
 #include "grlib/widget.h"
 #include "grlib/canvas.h"
@@ -23,9 +23,10 @@
 #include "grlib/slider.h"
 #include "drivers/Kentec320x240x16_SSD2119_SPI.h"
 #include "drivers/touch.h"
-#include "utils/ustdlib.h"
+//#include "utils/ustdlib.h"
 
 #include <math.h>
+#include "Average.h"
 
 #define ADC_SAMPLE_BUF_SIZE 64
 #define SampleFreq 5000 // 5kHz
@@ -33,6 +34,13 @@
 #define LCD_fps 5
 #define Vref 3.3
 #define PI 3.1415928353
+int mVperAmp = 55; // ACS711KLCTR-25AB-T
+int ACSoffset = 1650;
+#define R1 560.0  //K ohm
+#define R2 33.0 //k ohm
+#define denominator (R2 / (R1 + R2))
+
+#define TX_ON GPIO_PIN_3
 
 extern tCanvasWidget g_sTOP;
 extern tCanvasWidget g_sIndicator;
@@ -53,10 +61,13 @@ char Str1[10];
 char Str2[10];
 char Str3[10];
 
+Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
+Average<float> ave_ADC(ADC_SAMPLE_BUF_SIZE);
+
 volatile uint32_t uiCount = 0;
 
 // Timer 0 for display the ADC peak per 1s
-void Timer0Init(ui32SysClock)
+void Timer0Init(uint32_t ui32SysClock)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
        TimerConfigure(TIMER0_BASE, TIMER_CFG_A_PERIODIC);
@@ -66,7 +77,7 @@ void Timer0Init(ui32SysClock)
        IntEnable(INT_TIMER0A);
 }
 // Timer 1 for display FPS
-void Timer1Init(ui32SysClock)
+void Timer1Init(uint32_t ui32SysClock)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
        TimerConfigure(TIMER1_BASE, TIMER_CFG_A_PERIODIC);
@@ -75,7 +86,7 @@ void Timer1Init(ui32SysClock)
        IntEnable(INT_TIMER1A);
 }
 // Timer 5 for trigger ADC
-void Timer5Init(ui32SysClock)
+void Timer5Init(uint32_t ui32SysClock)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER5);
        TimerConfigure(TIMER5_BASE, TIMER_CFG_A_PERIODIC);
@@ -144,7 +155,7 @@ void OnButtonPress(tWidget *pWidget)
 
        if (g_RedLedOn)
        {
-              GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x08);
+              GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x08);
               PushButtonFillColorSet(&g_sPushBtn, ClrRed);
               PushButtonTextColorSet(&g_sPushBtn, ClrWhite);
               PushButtonTextSet(&g_sPushBtn, "TX ON");
@@ -152,7 +163,7 @@ void OnButtonPress(tWidget *pWidget)
        }
        else
        {
-              GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);
+              GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
               PushButtonFillColorSet(&g_sPushBtn, ClrWhite);
               PushButtonTextColorSet(&g_sPushBtn, ClrRed);
               PushButtonTextSet(&g_sPushBtn, "TX Off");
@@ -167,7 +178,7 @@ void Timer0IntHandler(void)
        //Radian
        // Angle = atan2(CosVoltage,SinVoltage)*(180/PI) + 180;
        //Degree
-       Angle = atan2(CosVoltage,SinVoltage) + PI;
+       Angle = atan2(CosVoltage, SinVoltage) + PI;
        snprintf(Str1, sizeof(Str1), "%.2f °", Angle);
        CanvasTextSet(&g_sResult_Slow, Str1);
        WidgetPaint((tWidget *)&g_sResult_Slow);
@@ -217,13 +228,28 @@ void ADC0SS1IntHandler(void)
        CosVoltage = (pui32ADC0Value[0] * (2 * Vref / 4096)) - Vref;
        SinVoltage = (pui32ADC0Value[1] * (2 * Vref / 4096)) - Vref;
        // Voltage = (*pui32ADC0Value * (2 * Vref / 4096)) - Vref;
+       // Voltage = Voltage / denominator;
+       // Amps = ((Voltage - ACSoffset) / mVperAmp);
        // TimerEnable(TIMER5_BASE, TIMER_A);
+}
+void GPIOinit(void)
+{
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON); // Output - TX_ON
+       GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_0);  // Input - VDRV
+       GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_0);  //Input PwrAmp
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_2);  //Input nFAULT
 }
 
 int main(void)
 {
        tContext sContext;
        uint32_t ui32SysClock;
+       ave_ADC.clear();
+       ave_VDC.clear();
 
        FPUEnable();
        FPULazyStackingEnable();
@@ -234,10 +260,7 @@ int main(void)
 
        ui32SysClock = MAP_SysCtlClockGet();
 
-       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
-       GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3, 0x00);
-
+       GPIOinit();
        Timer0Init(ui32SysClock);
        Timer1Init(ui32SysClock);
        Timer5Init(ui32SysClock);

@@ -403,7 +403,7 @@
                 </option>
                 <option>
                     <name>IccLang</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IccCDialect</name>
@@ -460,7 +460,7 @@
                 </option>
                 <option>
                     <name>IccExceptions2</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IccRTTI2</name>
@@ -2145,9 +2145,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\drivers\touch.c</name>
-        </file>
-        <file>
-            <name>C:\ti\TivaWare_C_Series-2.2.0.295\utils\ustdlib.c</name>
         </file>
     </group>
 </project>

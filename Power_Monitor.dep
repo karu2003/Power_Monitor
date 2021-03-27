@@ -1,213 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <fileVersion>4</fileVersion>
-    <fileChecksum>3037389459</fileChecksum>
+    <fileChecksum>2339773104</fileChecksum>
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\Debug\List\Power_Monitor.map</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\checkbox.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\startup_ewarm.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Exe\Power_Monitor.out</file>
-            <file>$PROJ_DIR$\Power_Monitor.c</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\utils\ustdlib.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\Power_Monitor.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\Power_Monitor.xcl</file>
-            <file>$PROJ_DIR$\startup_ewarm.c</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\ewarm\Exe\grlib.a</file>
-            <file>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.c</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\ewarm\Exe\driverlib.a</file>
-            <file>$PROJ_DIR$\..\drivers\touch.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\ustdlib.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\MyWidget.xcl</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\fpu.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\pushbutton.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\interrupt.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\startup_ewarm.o</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_memmap.h</file>
-            <file>$PROJ_DIR$\Debug\Exe\Power_Monitor.bin</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\slider.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\MyWidget.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\rom_map.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\math.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product_stdlib.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\time.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\Kentec320x240x16_ssd2119_spi.xcl</file>
-            <file>$PROJ_DIR$\Debug\Exe\MyWidget_spi.bin</file>
-            <file>$TOOLKIT_DIR$\inc\c\time32.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\touch.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\touch.o</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\radiobutton.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\Kentec320x240x16_ssd2119_spi.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_float_setup.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_adc.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\gpio.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\utils\ustdlib.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\Power_Monitor.__cstat.et</file>
-            <file>$PROJ_DIR$\MyWidget.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\startup_ewarm.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\ustdlib.xcl</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\canvas.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\grlib.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\adc.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\Kentec320x240x16_ssd2119_spi.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$PROJ_DIR$\Debug\Exe\MyWidget_spi.out</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_ints.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\ustdlib.o</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_types.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\touch.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-            <file>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
             <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\timer.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\sysctl.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\iar_intrinsics_common.h</file>
-            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\container.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-            <file>$PROJ_DIR$\MyWidget_spi.icf</file>
-            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
             <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-            <file>$PROJ_DIR$\..\drivers\touch.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\MyWidget.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\pushbutton.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\grlib.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\rom_map.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
             <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
             <file>$TOOLKIT_DIR$\inc\c\iccarm_builtin.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_gpio.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\pin_map.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\rom.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_timer.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\widget.h</file>
-            <file>$PROJ_DIR$\Power_Monitor.icf</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\canvas.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\adc.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\fpu.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
+            <file>$PROJ_DIR$\..\drivers\touch.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\math.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_types.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\Kentec320x240x16_ssd2119_spi.o</file>
+            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_ints.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_adc.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\iar_intrinsics_common.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\sysctl.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\container.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\startup_ewarm.o</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\gpio.h</file>
+            <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
+            <file>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\ewarm\Exe\driverlib.a</file>
+            <file>$PROJ_DIR$\Average.h</file>
+            <file>$PROJ_DIR$\Power_Monitor.c</file>
+            <file>$TOOLKIT_DIR$\inc\cpp\cstdlib</file>
+            <file>$TOOLKIT_DIR$\inc\cpp\xtr1common</file>
             <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_nvic.h</file>
+            <file>$PROJ_DIR$\..\drivers\touch.c</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_memmap.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_timer.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\rom.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\radiobutton.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_float_setup.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\ewarm\Exe\grlib.a</file>
+            <file>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.c</file>
+            <file>$PROJ_DIR$\startup_ewarm.c</file>
+            <file>$PROJ_DIR$\Debug\Exe\Power_Monitor.bin</file>
+            <file>$PROJ_DIR$\Debug\Obj\Kentec320x240x16_ssd2119_spi.xcl</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\pin_map.h</file>
+            <file>$PROJ_DIR$\Power_Monitor.icf</file>
+            <file>$PROJ_DIR$\Debug\Obj\touch.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\xtgmath.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\slider.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\inc\hw_gpio.h</file>
             <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\ssi.h</file>
-            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\debug.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\startup_ewarm.xcl</file>
+            <file>$PROJ_DIR$\Debug\Exe\Power_Monitor.out</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\driverlib\interrupt.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\Power_Monitor.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\Power_Monitor.o</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\widget.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlpp7M_tl_fc.a</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\touch.xcl</file>
+            <file>C:\ti\TivaWare_C_Series-2.2.0.295\grlib\checkbox.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product_stdlib.h</file>
+            <file>$PROJ_DIR$\Debug\List\Power_Monitor.map</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 3 0</file>
+                    <file> 57 69</file>
                 </tool>
             </outputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Debug\Exe\Power_Monitor.out</name>
-            <outputs>
-                <tool>
-                    <name>ILINK</name>
-                    <file> 0</file>
-                </tool>
-                <tool>
-                    <name>OBJCOPY</name>
-                    <file> 20</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ILINK</name>
-                    <file> 81 11 9 48 6 18 33 53 66 72 67 62</file>
-                </tool>
-            </inputs>
         </file>
         <file>
             <name>$PROJ_DIR$\Power_Monitor.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 41</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 6</file>
+                    <file> 61</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 7</file>
+                    <file> 60</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 75 23 68 49 31 38 69 58 56 26 74 19 54 15 17 59 60 39 24 47 37 52 46 64 73 61 80 45 1 63 16 34 21 57 70 40 51 27 30 25 36</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>C:\ti\TivaWare_C_Series-2.2.0.295\utils\ustdlib.c</name>
-            <outputs>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 13</file>
-                </tool>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 53</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 44</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 75 23 68 49 31 38 84 40 51 27 58 30</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\startup_ewarm.c</name>
-            <outputs>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 2</file>
-                </tool>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 18</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 43</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 75 23 68 49 31 38 82 54</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.c</name>
-            <outputs>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 35</file>
-                </tool>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 48</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 28</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 75 23 68 49 31 38 74 76 52 19 54 39 17 77 78 83 60 59 46 64 73 61 57</file>
+                    <file> 58 64 67 22 14 4 1 7 13 68 2 39 18 12 59 0 25 28 6 11 23 21 5 17 9 24 62 10 66 26 3 42 53 31 15 16 43 52 36 35 33</file>
                 </tool>
             </inputs>
         </file>
@@ -215,60 +108,75 @@
             <name>$PROJ_DIR$\..\drivers\touch.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 55</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 33</file>
+                    <file> 51</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 32</file>
+                    <file> 65</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 74 75 23 68 49 31 38 37 76 52 19 79 54 47 39 17 60 59 46 64 73 61 80 70</file>
+                    <file> 2 58 64 67 22 14 4 23 54 21 39 40 18 11 28 59 25 0 5 17 9 24 62 15</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\MyWidget.c</name>
+            <name>$PROJ_DIR$\..\drivers\Kentec320x240x16_ssd2119_spi.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 71</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 22</file>
+                    <file> 19</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 14</file>
+                    <file> 48</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 75 23 68 49 31 38 69 58 56 26 74 19 54 15 17 59 60 39 24 47 37 52 46 64 73 61 80 45 1 63 16 34 21 57 70 40 51 27 30 25 36</file>
+                    <file> 58 64 67 22 14 4 2 54 21 39 18 28 59 49 41 55 25 0 5 17 9 24 31</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\Debug\Exe\MyWidget_spi.out</name>
+            <name>$PROJ_DIR$\startup_ewarm.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 27</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 56</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 58 64 67 22 14 4 37 18</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Debug\Exe\Power_Monitor.out</name>
             <outputs>
                 <tool>
                     <name>OBJCOPY</name>
-                    <file> 29</file>
+                    <file> 47</file>
+                </tool>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 69</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 65 11 9 48 22 18 33 53 66 72 67 62</file>
+                    <file> 50 32 44 19 61 27 51 20 8 63 29 30</file>
                 </tool>
             </inputs>
         </file>

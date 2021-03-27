@@ -61,7 +61,8 @@ extern void ADC0SS1IntHandler(void);
 // The entry point for the application startup code.
 //
 //*****************************************************************************
-extern void __iar_program_start(void);
+extern "C" void __iar_program_start(void);
+// extern void __iar_program_start(void);  //, __cmain
 
 //*****************************************************************************
 //
