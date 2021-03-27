@@ -62,7 +62,9 @@ volatile uint32_t CountT5 = 0;
 char Str1[10];
 char Str2[10];
 char Str3[10];
-char *Test = "Test ----";
+char *Test = "Start";
+
+bool g_Peak = false;
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
 Average<float> ave_ADC(ADC_SAMPLE_BUF_SIZE);
@@ -183,6 +185,15 @@ void Timer0IntHandler(void)
        //Degree
        // Angle = atan2(CosVoltage, SinVoltage) + PI;
        // snprintf(Str1, sizeof(Str1), "%.2f °", Angle);
+       if (g_Peak)
+       {
+              Test = "Test COPM0";
+              g_Peak = false;
+       }
+       else
+       {
+              Test = "Test -----";
+       }
        CanvasTextSet(&g_sResult_Slow, Test);
        WidgetPaint((tWidget *)&g_sResult_Slow);
 }
@@ -210,21 +221,22 @@ void ADCInit(void)
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
        GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3 | GPIO_PIN_2);
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-       GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_3);
+       GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_3 | GPIO_PIN_2);
        // ADCHardwareOversampleConfigure(ADC0_BASE, 64);
        ADCSequenceConfigure(ADC0_BASE, 1, ADC_TRIGGER_TIMER, 0);
-       // ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH0 | ADC_CTL_D);
-       // ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH2 | ADC_CTL_D); //ADC_CTL_CMP0
        ADCSequenceStepConfigure(ADC0_BASE, 1, 0, ADC_CTL_CH0 | ADC_CTL_D);
-       ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH2 | ADC_CTL_IE | ADC_CTL_END); //| ADC_CTL_CMP0
+       ADCSequenceStepConfigure(ADC0_BASE, 1, 1, ADC_CTL_CH4);
+       ADCSequenceStepConfigure(ADC0_BASE, 1, 2, ADC_CTL_CH5 | ADC_CTL_CMP0);
+       ADCSequenceStepConfigure(ADC0_BASE, 1, 3, ADC_CTL_CH4 | ADC_CTL_IE | ADC_CTL_END);
        IntEnable(INT_ADC0SS1);
        ADCSequenceEnable(ADC0_BASE, 1);
        ADCIntClear(ADC0_BASE, 1);
 
-       ADCComparatorConfigure(ADC0_BASE, 0, ADC_COMP_TRIG_NONE | ADC_COMP_INT_HIGH_HONCE);
-       ADCComparatorRegionSet(ADC0_BASE, 0, 1000, 2000);
+       // ADCComparatorConfigure(ADC0_BASE, 0, ADC_COMP_TRIG_NONE | ADC_COMP_INT_HIGH_ONCE);
+       ADCComparatorRegionSet(ADC0_BASE, 0, 100, 500);
+       ADCComparatorConfigure(ADC0_BASE, 0, ADC_COMP_INT_HIGH_ONCE);
        ADCComparatorReset(ADC0_BASE, 0, true, true);
-       ADCComparatorIntEnable(ADC0_BASE, 1);
+       // ADCComparatorIntEnable(ADC0_BASE, 1);
 }
 
 void ADC0SS1IntHandler(void)
@@ -234,7 +246,7 @@ void ADC0SS1IntHandler(void)
        if (s)
        {
               ADCComparatorIntClear(ADC0_BASE, 0xffff);
-              Test = "Test CCOPM0";
+              g_Peak = true;
        }
        ADCIntClear(ADC0_BASE, 1);
        uiCount++;
@@ -304,6 +316,7 @@ int main(void)
        TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
        TimerIntEnable(TIMER5_BASE, TIMER_TIMA_TIMEOUT);
        ADCIntEnable(ADC0_BASE, 1);
+       ADCComparatorIntEnable(ADC0_BASE, 1);
        IntMasterEnable();
 
        while (1)
