@@ -247,12 +247,6 @@ void ADC0SS1IntHandler(void)
        // TimerEnable(TIMER5_BASE, TIMER_A);
 }
 
-void CMP0IntHandler(void)
-{
-       ADCComparatorIntClear(ADC0_BASE, 0xffff);
-       Test = "Test CCOPM0";
-}
-
 void GPIOinit(void)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
