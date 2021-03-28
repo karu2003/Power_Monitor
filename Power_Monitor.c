@@ -34,7 +34,8 @@
 #define LCD_fps 5
 #define Vref 3.3
 #define PI 3.1415928353
-int mVperAmp = 55; // ACS711KLCTR-25AB-T
+// int mVperAmp = 55; // ACS711KLCTR-25AB-T
+int mVperAmp = 110; // ACS711KLCTR-12AB-T
 int ACSoffset = 1650;
 #define R1 560.0 //K ohm
 #define R2 33.0  //k ohm
@@ -51,7 +52,8 @@ extern tCanvasWidget g_sResult_Quick;
 extern tPushButtonWidget g_sPushBtn;
 
 uint32_t pui32ADC0Value[ADC_SAMPLE_BUF_SIZE];
-float Voltage;
+float g_Voltage;
+float g_Current;
 float SinVoltage;
 float CosVoltage;
 float Angle;
@@ -65,6 +67,8 @@ char Str3[10];
 char *Test = "Start";
 
 bool g_Peak = false;
+bool g_Bridge = false;
+bool g_Driver = false;
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
 Average<float> ave_ADC(ADC_SAMPLE_BUF_SIZE);
@@ -247,6 +251,7 @@ void ADC0SS1IntHandler(void)
        {
               ADCComparatorIntClear(ADC0_BASE, 0xffff);
               g_Peak = true;
+              ave_ADC.clear();
        }
        ADCIntClear(ADC0_BASE, 1);
        uiCount++;
