@@ -211,6 +211,9 @@ void Timer1IntHandler(void)
        snprintf(Str3, sizeof(Str3), "%.2f Vsin", SinVoltage);
        CanvasTextSet(&g_sCurrent, Str3);
        WidgetPaint((tWidget *)&g_sResult_Quick);
+       //CanvasFillColorSet(g_sBridge, ClrRed);
+       //CanvasFillColorSet(g_sDriver, ClrRed);
+       // WidgetPaint((tWidget *)&g_sIndicator);
 }
 
 void Timer5IntHandler(void)
