@@ -44,6 +44,9 @@ int ACSoffset = 1650;
 #define SampleFreq (ADC_SAMPLE_BUF_SIZE / Winwows)
 
 #define TX_ON GPIO_PIN_3
+#define VDRV GPIO_PIN_0
+#define PwrAmp GPIO_PIN_0
+#define nFAULT GPIO_PIN_2
 
 extern tCanvasWidget g_sTOP;
 extern tCanvasWidget g_sIndicator;
@@ -67,8 +70,9 @@ char Str3[10];
 char *Test = "Start";
 
 bool g_Peak = false;
-bool g_Bridge = false;
-bool g_Driver = false;
+bool g_PwrAmp = false;
+bool g_VDRV = false;
+bool g_nFAULT = false;
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
 Average<float> ave_ADC(ADC_SAMPLE_BUF_SIZE);
@@ -200,6 +204,7 @@ void Timer0IntHandler(void)
        }
        CanvasTextSet(&g_sResult_Slow, Test);
        WidgetPaint((tWidget *)&g_sResult_Slow);
+       WidgetPaint((tWidget *)&g_sIndicator);
 }
 
 void Timer1IntHandler(void)
@@ -211,8 +216,31 @@ void Timer1IntHandler(void)
        snprintf(Str3, sizeof(Str3), "%.2f Vsin", SinVoltage);
        CanvasTextSet(&g_sCurrent, Str3);
        WidgetPaint((tWidget *)&g_sResult_Quick);
-       //CanvasFillColorSet(g_sBridge, ClrRed);
-       //CanvasFillColorSet(g_sDriver, ClrRed);
+
+       if (GPIOPinRead(GPIO_PORTF_BASE, VDRV))
+       {
+              CanvasFillColorSet(&g_sBridge, ClrRed);
+       }
+       else
+       {
+              CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
+       }
+       if (GPIOPinRead(GPIO_PORTE_BASE, PwrAmp))
+       {
+              CanvasFillColorSet(&g_sDriver, ClrRed);
+       }
+       else
+       {
+              CanvasFillColorSet(&g_sDriver, ClrGreenYellow);
+       }
+       if (GPIOPinRead(GPIO_PORTB_BASE, nFAULT))
+       {
+              CanvasFillColorSet(&g_sBridge, ClrRed);
+       }
+       else
+       {
+              CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
+       }
        // WidgetPaint((tWidget *)&g_sIndicator);
 }
 
@@ -270,13 +298,16 @@ void ADC0SS1IntHandler(void)
 void GPIOinit(void)
 {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);     // Output - TX_ON
-       GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_0); // Input - VDRV
-       GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
+       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);
+       GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, VDRV);
+       GPIOPadConfigSet(GPIO_PORTF_BASE, VDRV, GPIO_STRENGTH_4MA, GPIO_PIN_TYPE_STD_WPU); 
+       // GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_0); //Input PwrAmp
+       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, PwrAmp); 
+       GPIOPadConfigSet(GPIO_PORTE_BASE, PwrAmp, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_2); //Input nFAULT
+       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, nFAULT); 
+       GPIOPadConfigSet(GPIO_PORTB_BASE, nFAULT, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 }
 
 int main(void)
