@@ -23,10 +23,7 @@
 #include "grlib/slider.h"
 #include "drivers/Kentec320x240x16_SSD2119_SPI.h"
 #include "drivers/touch.h"
-//#include "utils/ustdlib.h"
-// #include "driverlib/rom.h"
 
-// #include <math.h>
 #include "Average.h"
 
 #define ADC_SAMPLE_BUF_SIZE 64
@@ -115,12 +112,12 @@ void OnButtonPress(tWidget *pWidget);
 Canvas(g_sDriver, &g_sIndicator, 0, 0,
        &g_sKentec320x240x16_SSD2119, 20, 190, 90, 23,
        (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
-       ClrGreenYellow, ClrGreenYellow, ClrBlack, &g_sFontCm22b, "Driver ", 0, 0);
+       ClrGreenYellow, ClrGreenYellow, ClrBlack, &g_sFontCm18b, "VDRV", 0, 0);
 
 Canvas(g_sBridge, &g_sIndicator, 0, &g_sDriver,
        &g_sKentec320x240x16_SSD2119, 20, 160, 90, 23,
        (CANVAS_STYLE_FILL | CANVAS_STYLE_OUTLINE | CANVAS_STYLE_TEXT),
-       ClrGreenYellow, ClrGreenYellow, ClrBlack, &g_sFontCm22b, "Bridge ", 0, 0);
+       ClrGreenYellow, ClrGreenYellow, ClrBlack, &g_sFontCm18b, "PwrAmp", 0, 0);
 
 Canvas(g_sIndicator, WIDGET_ROOT, 0, &g_sBridge,
        &g_sKentec320x240x16_SSD2119, 20, 160, 90, 46,
@@ -218,15 +215,6 @@ void Timer1IntHandler(void)
        CanvasTextSet(&g_sCurrent, Str3);
 
        if (GPIOPinRead(GPIO_PORTF_BASE, DRV_PIN) & DRV_PIN)
-       // if (ROM_GPIOPinRead(GPIO_PORTF_BASE, DRV_PIN)==1)
-       {
-              CanvasFillColorSet(&g_sBridge, ClrRed);
-       }
-       else
-       {
-              CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
-       }
-       if (GPIOPinRead(GPIO_PORTE_BASE, PwrAmp) & PwrAmp)
        {
               CanvasFillColorSet(&g_sDriver, ClrRed);
        }
@@ -234,14 +222,14 @@ void Timer1IntHandler(void)
        {
               CanvasFillColorSet(&g_sDriver, ClrGreenYellow);
        }
-       // if (GPIOPinRead(GPIO_PORTB_BASE, nFAULT) & nFAULT)
-       // {
-       //        CanvasFillColorSet(&g_sBridge, ClrRed);
-       // }
-       // else
-       // {
-       //        CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
-       // }
+       if (GPIOPinRead(GPIO_PORTE_BASE, PwrAmp) & PwrAmp)
+       {
+              CanvasFillColorSet(&g_sBridge, ClrRed);
+       }
+       else
+       {
+              CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
+       }
        WidgetPaint((tWidget *)&g_sResult_Quick);
        // WidgetPaint((tWidget *)&g_sIndicator);
 }
@@ -304,15 +292,15 @@ void GPIOinit(void)
        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
        SysCtlDelay(26);
 
-       // GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);
-       // GPIOPadConfigSet(GPIO_PORTF_BASE, TX_ON, GPIO_STRENGTH_12MA, GPIO_PIN_TYPE_STD);
-       // GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
+       GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);
+       GPIOPadConfigSet(GPIO_PORTF_BASE, TX_ON, GPIO_STRENGTH_12MA, GPIO_PIN_TYPE_STD);
+       GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
 
-       // GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, PwrAmp);
-       // GPIOPadConfigSet(GPIO_PORTE_BASE, PwrAmp, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
+       GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, PwrAmp);
+       GPIOPadConfigSet(GPIO_PORTE_BASE, PwrAmp, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-       // GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, nFAULT);
-       // GPIOPadConfigSet(GPIO_PORTB_BASE, nFAULT, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
+       GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, nFAULT);
+       GPIOPadConfigSet(GPIO_PORTB_BASE, nFAULT, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
        GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, DRV_PIN);
        GPIOPadConfigSet(GPIO_PORTF_BASE, DRV_PIN, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
@@ -333,14 +321,14 @@ int main(void)
                           SYSCTL_OSC_MAIN);
 
        ui32SysClock = MAP_SysCtlClockGet();
-
-       GPIOinit();
+       
        Timer0Init(ui32SysClock);
        Timer1Init(ui32SysClock);
        Timer5Init(ui32SysClock);
        ADCInit();
 
        Kentec320x240x16_SSD2119Init(ui32SysClock);
+       GPIOinit();
 
        GrContextInit(&sContext, &g_sKentec320x240x16_SSD2119);
 
