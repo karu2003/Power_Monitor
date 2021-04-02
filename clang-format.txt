@@ -1,0 +1,12 @@
+https://zed0.co.uk/clang-format-configurator/
+
+BasedOnStyle: LLVM
+
+AccessModifierOffset: -4
+AllowShortIfStatementsOnASingleLine: false
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+IndentCaseLabels: false
+IndentWidth: 4
+SortIncludes: false
+TabWidth: 4
