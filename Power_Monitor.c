@@ -35,9 +35,15 @@
 // int mVperAmp = 55; // ACS711KLCTR-25AB-T
 int mVperAmp = 110; // ACS711KLCTR-12AB-T
 int ACSoffset = 1650;
-#define R1 560.0 // K ohm
-#define R2 33.0  // k ohm
+#define R1 390.0 // K ohm
+#define R2 2.375  // 39 k ohm
+#define R3 2.7  // k ohm
+#define R23 ((R2*R3)/(R2+R3)) // parallel
 #define denominator (R2 / (R1 + R2))
+#define AMC1200Gain 8.0
+#define R1gain 1.15 // K ohm
+#define R2gain 0.715 // K ohm
+#define GAIN R1gain/R2gain 
 #define Winwows 0.025 // 25ms
 #define SampleFreq (ADC_SAMPLE_BUF_SIZE / Winwows)
 
@@ -192,9 +198,9 @@ void Timer0IntHandler(void) {
 void Timer1IntHandler(void) {
   TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
   CountT1++;
-  snprintf(Str2, sizeof(Str2), "%.2f Vcos", CosVoltage);
+  snprintf(Str2, sizeof(Str2), "%.2f V", ave_VDC.mean());
   CanvasTextSet(&g_sVolt, Str2);
-  snprintf(Str3, sizeof(Str3), "%.2f Vsin", SinVoltage);
+  snprintf(Str3, sizeof(Str3), "%.2f Vsin", g_Current);
   CanvasTextSet(&g_sCurrent, Str3);
 
   if (GPIOPinRead(GPIO_PORTF_BASE, DRV_PIN) & DRV_PIN) {
@@ -252,8 +258,10 @@ void ADC0SS1IntHandler(void) {
   ADCIntClear(ADC0_BASE, 1);
   uiCount++;
   ADCSequenceDataGet(ADC0_BASE, 1, pui32ADC0Value);
-  CosVoltage = (pui32ADC0Value[0] * (2 * Vref / 4096)) - Vref;
-  SinVoltage = (pui32ADC0Value[1] * Vref / 4096);
+  g_Voltage = (pui32ADC0Value[0] * (2 * Vref / 4096)) - Vref;
+  g_Voltage = g_Voltage / (denominator);
+  ave_VDC.push(g_Voltage / (AMC1200Gain * GAIN));
+  g_Current = (pui32ADC0Value[1] * Vref / 4096);
   // Voltage = (*pui32ADC0Value * (2 * Vref / 4096)) - Vref;
   // Voltage = Voltage / denominator;
   // Amps = ((Voltage - ACSoffset) / mVperAmp);
