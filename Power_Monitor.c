@@ -245,9 +245,9 @@ void ADC0SS1IntHandler(void) {
   g_Voltage = g_Voltage / (denominator);
   ave_VDC.push(g_Voltage / (AMC1200Gain * GAIN));
   g_Current = (pui32ADC0Value[1] * Vref / 4096) - ACS711Soffset;
-  if (g_Current >= 0.8) {
-    g_Current = roundf(g_Current * 10.0f) / 10.0f;
-  }
+  // if (g_Current >= 0.8) {
+  //   g_Current = roundf(g_Current * 10.0f) / 10.0f;
+  // }
   g_Current = g_Current / VperAmp;
   g_Current = (slope_A * g_Current) + intercept_A;
   ave_ADC.push(g_Current);
