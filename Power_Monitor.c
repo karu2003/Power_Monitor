@@ -77,7 +77,7 @@ bool g_Peak = false;
 bool g_PwrAmp = false;
 bool g_VDRV = false;
 bool g_nFAULT = false;
-float slope_A = 1.0;     // 1.026
+float slope_A = 1.039;     // 1.026
 float intercept_A = 0.0; // 0.305
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
