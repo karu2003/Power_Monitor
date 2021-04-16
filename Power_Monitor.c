@@ -30,11 +30,11 @@
 // #define SampleFreq 5000 // 5kHz
 #define LCD_hold 1 // 1Hz
 #define LCD_fps 5
-#define Vref 3.3
+#define Vref 3.3                    // 3.3
 #define VperAmp 0.110               // 110mV/A ACS711KLCTR-12AB-T
-#define ACS711Soffset 1.657         // 1.657
+#define ACS711Soffset 1.6635        // 1.664
 #define R1 390.0                    // K ohm
-#define R2 2.39                     // 39 k ohm
+#define R2 2.29                     // 39 k ohm
 #define R3 2.7                      // k ohm
 #define R23 ((R2 * R3) / (R2 + R3)) // parallel
 #define denominator (R2 / (R1 + R2))
@@ -62,6 +62,7 @@ uint32_t pui32ADC0Value[ADC_SAMPLE_BUF_SIZE];
 float g_Voltage;
 float g_Current;
 float g_Current_Peak;
+float g_ACS711Soffset = 0.0;
 
 volatile uint32_t CountT0 = 0;
 volatile uint32_t CountT1 = 0;
@@ -244,13 +245,22 @@ void ADC0SS1IntHandler(void) {
   g_Voltage = (pui32ADC0Value[0] * (2 * Vref / 4096)) - Vref;
   g_Voltage = g_Voltage / (denominator);
   ave_VDC.push(g_Voltage / (AMC1200Gain * GAIN));
-  g_Current = (pui32ADC0Value[1] * Vref / 4096) - ACS711Soffset;
+  g_Current = (pui32ADC0Value[1] * Vref / 4096) - g_ACS711Soffset;
+  // roundf
   // if (g_Current >= 0.8) {
   //   g_Current = roundf(g_Current * 10.0f) / 10.0f;
   // }
-  g_Current = g_Current / VperAmp;
-  g_Current = (slope_A * g_Current) + intercept_A;
+
+  if (g_ACS711Soffset == 0) {
+    if (ave_ADC.getCount() == ADC_SAMPLE_BUF_SIZE - 1) {
+      g_ACS711Soffset = ave_ADC.mean();
+    }
+  } else {
+    g_Current = g_Current / VperAmp;
+    g_Current = (slope_A * g_Current) + intercept_A;
+  }
   ave_ADC.push(g_Current);
+
   if (g_Peak) {
     if (ave_ADC.getCount() == ADC_SAMPLE_BUF_SIZE - 1) {
       g_Current_Peak = ave_ADC.maximum();
