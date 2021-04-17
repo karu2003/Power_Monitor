@@ -77,7 +77,7 @@ bool g_Peak = false;
 bool g_PwrAmp = false;
 bool g_VDRV = false;
 bool g_nFAULT = false;
-float slope_A = 1.039;     // 1.026
+float slope_A = 1.039;   // 1.026
 float intercept_A = 0.0; // 0.305
 
 Average<float> ave_VDC(ADC_SAMPLE_BUF_SIZE);
@@ -201,6 +201,18 @@ void Timer1IntHandler(void) {
     CanvasFillColorSet(&g_sBridge, ClrGreenYellow);
   }
   WidgetPaint((tWidget *)&g_sResult_Quick);
+
+  if (GPIOPinRead(GPIO_PORTF_BASE, TX_ON) & TX_ON) {
+    PushButtonFillColorSet(&g_sPushBtn, ClrRed);
+    PushButtonTextColorSet(&g_sPushBtn, ClrWhite);
+    PushButtonTextSet(&g_sPushBtn, "TX ON");
+    PushButtonOutlineColorSet(&g_sPushBtn, ClrWhite);
+  } else {
+    PushButtonFillColorSet(&g_sPushBtn, ClrWhite);
+    PushButtonTextColorSet(&g_sPushBtn, ClrRed);
+    PushButtonTextSet(&g_sPushBtn, "TX Off");
+    PushButtonOutlineColorSet(&g_sPushBtn, ClrRed);
+  }
   // WidgetPaint((tWidget *)&g_sIndicator);
 }
 
@@ -276,9 +288,8 @@ void GPIOinit(void) {
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
   SysCtlDelay(26);
 
-  GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, TX_ON);
-  GPIOPadConfigSet(GPIO_PORTF_BASE, TX_ON, GPIO_STRENGTH_12MA, GPIO_PIN_TYPE_STD);
-  GPIOPinWrite(GPIO_PORTF_BASE, TX_ON, 0x00);
+  GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, TX_ON);
+  GPIOPadConfigSet(GPIO_PORTF_BASE, TX_ON, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
   GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, PwrAmp);
   GPIOPadConfigSet(GPIO_PORTE_BASE, PwrAmp, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
