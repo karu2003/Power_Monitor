@@ -416,7 +416,7 @@
             "cppStandard": "c++14",
             "compilerPath": "",
             "intelliSenseMode": "msvc-x64",
-            "configurationProvider": "iar-vsc"
+            "configurationProvider": "pluyckx.iar-vsc"
         }
     ]
 }
