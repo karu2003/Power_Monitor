@@ -207,13 +207,15 @@ void Timer1IntHandler(void) {
     PushButtonTextColorSet(&g_sPushBtn, ClrWhite);
     PushButtonTextSet(&g_sPushBtn, "TX ON");
     PushButtonOutlineColorSet(&g_sPushBtn, ClrWhite);
+    WidgetPaint((tWidget *)&g_sPushBtn);
   } else {
     PushButtonFillColorSet(&g_sPushBtn, ClrWhite);
     PushButtonTextColorSet(&g_sPushBtn, ClrRed);
     PushButtonTextSet(&g_sPushBtn, "TX Off");
     PushButtonOutlineColorSet(&g_sPushBtn, ClrRed);
+    WidgetPaint((tWidget *)&g_sPushBtn);
   }
-  // WidgetPaint((tWidget *)&g_sIndicator);
+
 }
 
 void Timer5IntHandler(void) {
